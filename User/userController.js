@@ -80,7 +80,7 @@ const viewUser = (req,res)=>{
   })
 }
 
-// ---------user profile view ends---------
+// ---------user profile view ends--------
 
 // ---------All sellers view starts-------
 
