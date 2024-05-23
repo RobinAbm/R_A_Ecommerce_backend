@@ -21,7 +21,8 @@ var sellerchema = mongoose.Schema({
   gender:{
     type:String,
     default:"male"
-  }
+  },
+  image:Object
 })
 
 const seller = mongoose.model('sellers',sellerchema)

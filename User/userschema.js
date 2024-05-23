@@ -21,7 +21,8 @@ var userchema = mongoose.Schema({
   gender:{
     type:String,
     default:"male"
-  }
+  },
+  image:Object
 })
 
 

@@ -1,6 +1,20 @@
 const products = require('../Products/productschema')
 const sellerchema = require('./sellerschema')
 
+const multer = require('multer')
+
+const storage = multer.diskStorage({
+  destination: function(req,res,cb){
+    cb(null,'./upload');
+  },
+  filename: function(req,file,cb){
+    cb(null,file.originalname);
+  }
+})
+
+const upload = multer({ storage: storage }).fields([
+  { name: 'image', maxCount: 1 }
+]);
 // ---------user registration---------
 const regSeller=(req,res)=>{
   const newSeller = new sellerchema({
@@ -8,7 +22,8 @@ const regSeller=(req,res)=>{
     number:req.body.number,
     email:req.body.email,
     password:req.body.password,
-    gender:req.body.gender
+    gender:req.body.gender,
+    image: req.files && req.files['image'] ? req.files['image'][0] : null
   })
   newSeller.save()
 
@@ -96,4 +111,4 @@ const allSeller = (req,res)=>{
 
 // ---------All sellers view ends-------
 
-module.exports={regSeller,sellerLogin,viewSeller,allSeller}
+module.exports={regSeller,sellerLogin,viewSeller,allSeller,upload}
