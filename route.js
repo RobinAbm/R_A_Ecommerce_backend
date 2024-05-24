@@ -25,6 +25,9 @@ router.post('/allUser',userController.allUser)
 router.post('/approveSeller/:sid',sellerController.approveSeller)
 router.post('/declineSeller/:sid',sellerController.declineSeller)
 router.post('/editSeller/:sid',sellerController.upload,sellerController.editSeller)
+router.post('/editUser/:uid',userController.upload,userController.editUser)
+router.post('/resetPasswordUser',userController.resetPassword)
+router.post('/resetPasswordSeller',sellerController.resetPassword)
 
 
 module.exports = router

@@ -112,6 +112,59 @@ const allUser = (req,res)=>{
 
 // ---------All users view ends-------
 
+// --------- user edit starts-------
+const editUser=(req,res)=>{
+  const {uid}= req.params;
+    userschema.findByIdAndUpdate(uid,{
+    name:req.body.name,
+    number:req.body.number,
+    email:req.body.email,
+    password:req.body.password,
+    gender:req.body.gender,
+    image: req.files && req.files['image'] ? req.files['image'][0] : null
+  })
+  .then(data=>{
+    res.json({
+      status:200,
+      msg:'user updated successfully',
+      data:data
+    })
+  })
+  .catch(err=>{
+    res.send(err);
+  })
+}
+
+// --------- user edit starts-------
 
 
-module.exports={regUser,userLogin,viewUser,allUser,upload}
+
+// --------- user password reset starts-------
+
+const resetPassword =(req,res)=>{
+ const email = req.body.email;
+  userschema.findOneAndUpdate({email},{
+    password:req.body.password
+  })
+  .then(data=>{
+    if(!data){
+      res.send('User doesnt exist')
+    }
+    else{
+      res.json({
+        status:200,
+        msg:'user updated successfully',
+        data:data
+      })
+    }
+   
+  })
+  .catch(err=>{
+    res.send(err);
+  })
+}
+// --------- user password reset ends-------
+
+
+
+module.exports={regUser,userLogin,viewUser,allUser,upload,editUser,resetPassword}
