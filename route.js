@@ -20,6 +20,11 @@ router.post('/viewCart/:uid',cartController.viewCart)
 router.post('/removeCart/:id',cartController.removeCart)
 router.post('/ownProducts/:userid',productController.ownProducts)
 router.post('/allSeller',sellerController.allSeller)
+router.post('/pendingSeller',sellerController.pendingSeller)
 router.post('/allUser',userController.allUser)
+router.post('/approveSeller/:sid',sellerController.approveSeller)
+router.post('/declineSeller/:sid',sellerController.declineSeller)
+router.post('/editSeller/:sid',sellerController.upload,sellerController.editSeller)
+
 
 module.exports = router

@@ -96,7 +96,7 @@ const viewUser = (req,res)=>{
 
 // ---------user profile view ends--------
 
-// ---------All sellers view starts-------
+// ---------All users view starts-------
 
 const allUser = (req,res)=>{
   userschema.find()
@@ -110,6 +110,8 @@ const allUser = (req,res)=>{
 }
 
 
-// ---------All sellers view ends-------
+// ---------All users view ends-------
+
+
 
 module.exports={regUser,userLogin,viewUser,allUser,upload}
