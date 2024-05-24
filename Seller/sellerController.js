@@ -196,5 +196,32 @@ const editSeller=(req,res)=>{
 // ---------sellers profile edit starts-------
 
 
+// --------- user password reset starts-------
 
-module.exports={regSeller,sellerLogin,viewSeller,allSeller,upload,approveSeller,pendingSeller,declineSeller,editSeller}
+const resetPassword =(req,res)=>{
+  const email = req.body.email;
+   sellerschema.findOneAndUpdate({email},{
+     password:req.body.password
+   })
+   .then(data=>{
+     if(!data){
+       res.send('Seller doesnt exist')
+     }
+     else{
+       res.json({
+         status:200,
+         msg:'Seller updated successfully',
+         data:data
+       })
+     }
+    
+   })
+   .catch(err=>{
+     res.send(err);
+   })
+ }
+ // --------- user password reset ends-------
+
+
+
+module.exports={regSeller,sellerLogin,viewSeller,allSeller,upload,approveSeller,pendingSeller,declineSeller,editSeller,resetPassword}
