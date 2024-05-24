@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 mongoose.connect(('mongodb://localhost:27017/Ecommerce'))
 
-var sellerchema = mongoose.Schema({
+var sellerschema = mongoose.Schema({
   name:{
     type:String,
     required:true
@@ -22,9 +22,13 @@ var sellerchema = mongoose.Schema({
     type:String,
     default:"male"
   },
-  image:Object
+  image:Object,
+  isActive:{
+    type:Boolean,
+    default:false
+  }
 })
 
-const seller = mongoose.model('sellers',sellerchema)
+const seller = mongoose.model('sellers',sellerschema)
 
 module.exports=seller
