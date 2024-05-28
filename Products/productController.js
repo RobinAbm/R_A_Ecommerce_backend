@@ -28,6 +28,9 @@ const addProduct=(req,res)=>{
     quantity:req.body.quantity,
     material:req.body.material,
     specifications:req.body.specifications,
+    gender:req.body.gender,
+    category:req.body.category,
+    size:req.body.size,
     price:req.body.price,
     image1: req.files['image1'] ? req.files['image1'][0] : null,
     image2: req.files['image2'] ? req.files['image2'][0] : null,
@@ -83,11 +86,34 @@ const viewProductById = (req, res) => {
 
 // ---------view Search products starts---------
 
+// const userSearch = (req, res) => {
+//   const { search } = req.params;
+//   console.log(search);
+  
+//   productschema.find({ name: search }) 
+//     .then(data => {
+//       res.send(data);
+//     })
+//     .catch(err => {
+//       console.log(err);
+//       res.status(500).send('Internal Server Error');
+//     });
+// };
+
 const userSearch = (req, res) => {
   const { search } = req.params;
   console.log(search);
-  
-  productschema.find({ name: search }) 
+
+  const searchQuery = {
+    $or: [
+      { name: { $regex: search, $options: 'i' } }, // case-insensitive search
+      { brand: { $regex: search, $options: 'i' } },
+      { material: { $regex: search, $options: 'i' } },
+      { specifications: { $regex: search, $options: 'i' } }
+    ]
+  };
+
+  productschema.find(searchQuery)
     .then(data => {
       res.send(data);
     })
@@ -117,5 +143,59 @@ const ownProducts = (req,res)=>{
 
 // ---------own products view ends---------
 
-module.exports={addProduct,viewProducts,upload,viewProductById,userSearch,ownProducts};
+
+// ---------own products edit starts---------
+
+const ownProductsedit =(req,res)=>{
+  const {pid} = req.params
+  console.log(pid);
+  productschema.findByIdAndUpdate(pid,{
+    name:req.body.name,
+    brand:req.body.brand,
+    quantity:req.body.quantity,
+    material:req.body.material,
+    specifications:req.body.specifications,
+    gender:req.body.gender,
+    category:req.body.category,
+    size:req.body.size,
+    price:req.body.price,
+    image1: req.files['image1'] ? req.files['image1'][0] : null,
+    image2: req.files['image2'] ? req.files['image2'][0] : null,
+    image3: req.files['image3'] ? req.files['image3'][0] : null
+  })
+  .then(data=>{
+    res.json({
+      status:200,
+      msg:'product updated successfully',
+      data:data
+    })
+  })
+  .catch(err=>{
+    res.send(err);
+  })
+}
+
+
+// ---------own products edit ends---------
+
+// --------- products delete starts---------
+
+const deleteProduct =(req,res)=>{
+  const pid = req.params.pid;
+  productschema.findByIdAndDelete(pid)
+  .then(data=>{
+    res.json({
+      status:200,
+      msg:'product deleted successfully',
+      data:data
+    })
+  })
+  .catch(err=>{
+    res.send(err);
+  })
+}
+
+// --------- products delete ends---------
+
+module.exports={addProduct,viewProducts,upload,viewProductById,userSearch,ownProducts,ownProductsedit,deleteProduct};
 

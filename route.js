@@ -6,6 +6,8 @@ const userController = require('./User/userController');
 const cartController = require('./Cart/cartController')
 
 router.post('/newproduct',productController.upload,productController.addProduct)
+router.post('/ownProductsedit/:pid',productController.upload,productController.ownProductsedit)
+router.post('/deleteProduct/:pid',productController.deleteProduct)
 router.post('/viewproducts',productController.viewProducts)
 router.post('/viewIndividualproducts/:id',productController.viewProductById)
 router.post('/newseller',sellerController.upload,sellerController.regSeller)
