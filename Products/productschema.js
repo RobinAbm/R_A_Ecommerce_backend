@@ -13,6 +13,12 @@ var productschema = mongoose.Schema({
   },
   material:String,
   specifications:String,
+  gender:{
+    type:String,
+    default:'male'
+  },
+  category:String,
+  size:String,
   price:Number,
   image1:Object,
   image2:Object,
