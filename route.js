@@ -4,6 +4,8 @@ const productController = require('./Products/productController')
 const sellerController = require('./Seller/sellerController')
 const userController = require('./User/userController');
 const cartController = require('./Cart/cartController')
+const addressController = require('./Address/addressController')
+const buyController = require('./Buy/buyController')
 
 router.post('/newproduct',productController.upload,productController.addProduct)
 router.post('/ownProductsedit/:pid',productController.upload,productController.ownProductsedit)
@@ -30,6 +32,13 @@ router.post('/editSeller/:sid',sellerController.upload,sellerController.editSell
 router.post('/editUser/:uid',userController.upload,userController.editUser)
 router.post('/resetPasswordUser',userController.resetPassword)
 router.post('/resetPasswordSeller',sellerController.resetPassword)
+router.post('/newAddress/:uid',addressController.newAddress)
+router.post('/showAddress/:uid',addressController.showAddress)
+router.post('/deleteAddress/:aid',addressController.deleteAddress)
+router.post('/editAddress/:aid',addressController.editAddress)
+router.post('/buyProduct/:uid/:pid/:aid',buyController.buyProduct)
+router.post('/viewHistory/:uid',buyController.viewHistory)
+router.post('/sellerHistory/:sid',buyController.sellerHistory)
 
 
 module.exports = router
