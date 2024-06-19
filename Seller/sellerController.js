@@ -59,11 +59,18 @@ const sellerLogin = (req, res) => {
       }
       if (password === data.password) {
 
-        if(data.isActive == true){
+        if(data.isActive == true && data.isBan == false){
           return res.status(200).json({
             status: 200,
             msg: "Login successfully",
             data: data
+          });
+        }
+        else if(data.isBan == true){
+          return res.json({
+            status: 401,
+            msg: "User is banned",
+            data : 'ban'
           });
         }
         else{
@@ -110,7 +117,7 @@ const viewSeller = (req,res)=>{
 // ---------All active sellers view starts-------
 
 const allSeller = (req,res)=>{
-  sellerschema.find({isActive:true})
+  sellerschema.find({isActive:true , isBan:false})
   .then(data=>{
     res.send(data)
   })
@@ -223,5 +230,62 @@ const resetPassword =(req,res)=>{
  // --------- user password reset ends-------
 
 
+ // ---------sellers ban starts-------
+ const banSeller = async (req, res) => {
+  const { sid } = req.params;
+  
+  try {
+   
+    const updatedSeller = await sellerschema.findByIdAndUpdate(sid, { isBan: true }, { new: true });
 
-module.exports={regSeller,sellerLogin,viewSeller,allSeller,upload,approveSeller,pendingSeller,declineSeller,editSeller,resetPassword}
+    if (!updatedSeller) {
+      return res.status(404).json({ msg: 'Seller not found' });
+    }
+
+  
+    await products.deleteMany({ sid: sid });
+
+    res.status(200).json({
+      status: 200,
+      msg: 'Seller banned and products deleted successfully',
+      data: updatedSeller
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: 'Internal Server Error' });
+  }
+};
+
+ // ---------sellers ban starts-------
+
+// ---------sellers ban  view starts-------
+  const viewbanSeller =(req,res)=>{
+    sellerschema.find({ isActive:true,isBan: true })
+    .then(data=>{
+      res.send(data)
+    })
+    .catch(err=>{
+      res.send(err)
+    })
+  }
+
+
+  // ---------sellers ban view ends-------
+
+  // ---------sellers unban   starts-------
+  const unbanSeller =(req,res)=>{
+    const {sid} = req.params
+    sellerschema.findByIdAndUpdate(sid, { isBan: false }, { new: false })
+    .then(data=>{
+      res.send(data)
+    })
+    .catch(err=>{
+      res.send(err)
+    })
+  }
+
+
+  // ---------sellers unban  ends-------
+  
+
+module.exports={regSeller,sellerLogin,viewSeller,allSeller,upload,approveSeller,pendingSeller,declineSeller,editSeller,resetPassword,banSeller,viewbanSeller,unbanSeller}

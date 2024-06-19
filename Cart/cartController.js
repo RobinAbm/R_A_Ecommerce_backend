@@ -73,4 +73,6 @@ const removeCart = async (req, res) => {
 
 // Remove item of cart ends
 
-module.exports = { addCart, viewCart,removeCart };
+
+
+module.exports = { addCart, viewCart,removeCart};
