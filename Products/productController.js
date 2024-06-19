@@ -100,17 +100,55 @@ const viewProductById = (req, res) => {
 //     });
 // };
 
+// const userSearch = (req, res) => {
+//   const { search } = req.params;
+//   console.log(search);
+
+//   const searchQuery = {
+//     $or: [
+//       { name: { $regex: search, $options: 'i' } }, // case-insensitive search
+//       { brand: { $regex: search, $options: 'i' } },
+//       { material: { $regex: search, $options: 'i' } },
+//       { specifications: { $regex: search, $options: 'i' } },
+//       { gender: { $regex: search, $options: 'i' } },
+//       { category: { $regex: search, $options: 'i' } }
+//     ]
+//   };
+
+//   productschema.find(searchQuery)
+//     .then(data => {
+//       res.send(data);
+//     })
+//     .catch(err => {
+//       console.log(err);
+//       res.status(500).send('Internal Server Error');
+//     });
+// };
+
 const userSearch = (req, res) => {
   const { search } = req.params;
   console.log(search);
 
+  // Split the search string into individual words
+  const searchWords = search.split(' ');
+
+  // Create an array of search conditions for each word
+  const searchConditions = searchWords.map(word => {
+    return {
+      $or: [
+        { name: { $regex: word, $options: 'i' } }, // case-insensitive search
+        { brand: { $regex: word, $options: 'i' } },
+        { material: { $regex: word, $options: 'i' } },
+        { specifications: { $regex: word, $options: 'i' } },
+        { gender: { $regex: word, $options: 'i' } },
+        { category: { $regex: word, $options: 'i' } }
+      ]
+    };
+  });
+
+  // Combine all conditions using $and
   const searchQuery = {
-    $or: [
-      { name: { $regex: search, $options: 'i' } }, // case-insensitive search
-      { brand: { $regex: search, $options: 'i' } },
-      { material: { $regex: search, $options: 'i' } },
-      { specifications: { $regex: search, $options: 'i' } }
-    ]
+    $and: searchConditions
   };
 
   productschema.find(searchQuery)

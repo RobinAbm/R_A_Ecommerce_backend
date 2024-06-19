@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 const products = require('../Products/productschema');
 const user = require('../User/userschema');
 const address = require('../Address/addressSchema');
+const seller = require('../Seller/sellerschema')
 mongoose.connect('mongodb://localhost:27017/Ecommerce');
 
 var buySchema = mongoose.Schema({
@@ -31,6 +32,11 @@ var buySchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: address
+  },
+  sid:{
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref:seller
   },
   date:{
     type: Date,

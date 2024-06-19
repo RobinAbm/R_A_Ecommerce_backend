@@ -26,6 +26,10 @@ var sellerschema = mongoose.Schema({
   isActive:{
     type:Boolean,
     default:false
+  },
+  isBan:{
+    type:Boolean,
+    default:false
   }
 })
 

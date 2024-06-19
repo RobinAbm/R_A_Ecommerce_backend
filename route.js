@@ -36,9 +36,13 @@ router.post('/newAddress/:uid',addressController.newAddress)
 router.post('/showAddress/:uid',addressController.showAddress)
 router.post('/deleteAddress/:aid',addressController.deleteAddress)
 router.post('/editAddress/:aid',addressController.editAddress)
-router.post('/buyProduct/:uid/:pid/:aid',buyController.buyProduct)
+router.post('/buyProduct/:uid/:pid/:aid/:sid',buyController.buyProduct)
 router.post('/viewHistory/:uid',buyController.viewHistory)
 router.post('/sellerHistory/:sid',buyController.sellerHistory)
+router.post('/banSeller/:sid',sellerController.banSeller)
+router.post('/viewbanSeller',sellerController.viewbanSeller)
+router.post('/unbanSeller/:sid',sellerController.unbanSeller)
+router.post('/cartBuy/:uid/:aid',buyController.cartBuy)
 
 
 module.exports = router

@@ -1,4 +1,5 @@
 var mongoose=require('mongoose')
+const seller = require('../Seller/sellerschema')
 mongoose.connect('mongodb://localhost:27017/Ecommerce')
 
 var productschema = mongoose.Schema({
@@ -23,7 +24,11 @@ var productschema = mongoose.Schema({
   image1:Object,
   image2:Object,
   image3:Object,
-  sid:String
+  sid:{
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: seller
+  }
 })
 
 const products =mongoose.model('products',productschema)
